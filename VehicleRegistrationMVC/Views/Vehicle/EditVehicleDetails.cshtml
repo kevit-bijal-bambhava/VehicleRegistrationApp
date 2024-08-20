@@ -1,0 +1,99 @@
+﻿@model VehicleRegistrationMVC.Models.VehicleViewModel
+
+@{
+    ViewData["Title"] = "Edit Vehicle Details";
+}
+
+<div class="container mt-5">
+    <h3 class="mb-4">Edit Vehicle Details</h3>
+    <hr />
+  
+    <div class="row">
+        <div class="col-md-8 col-lg-6 mx-auto">
+            <form asp-controller="Vehicle" asp-action="EditVehicleDetails" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="VehicleNumber" class="form-label"></label>
+                    <input asp-for="VehicleNumber" class="form-control" />
+                    <div class="invalid-feedback">
+                        <span asp-validation-for="VehicleNumber"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <div class="invalid-feedback">
+                        <span asp-validation-for="Description"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="VehicleOwnerName" class="form-label"></label>
+                    <input asp-for="VehicleOwnerName" class="form-control" />
+                    <div class="invalid-feedback">
+                        <span asp-validation-for="VehicleOwnerName"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="OwnerAddress" class="form-label"></label>
+                    <input asp-for="OwnerAddress" class="form-control" />
+                    <div class="invalid-feedback">
+                        <span asp-validation-for="OwnerAddress"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="OwnerContactNumber" class="form-label"></label>
+                    <input asp-for="OwnerContactNumber" class="form-control" />
+                    <div class="invalid-feedback">
+                        <span asp-validation-for="OwnerContactNumber"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <div class="invalid-feedback">
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="VehicleClass" class="form-label"></label>
+                    <input asp-for="VehicleClass" class="form-control" />
+                    <div class="invalid-feedback">
+                        <span asp-validation-for="VehicleClass"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="FuelType" class="form-label"></label>
+                    <input asp-for="FuelType" class="form-control" />
+                    <div class="invalid-feedback">
+                        <span asp-validation-for="FuelType"></span>
+                    </div>
+                </div>
+
+                <input type="hidden" asp-for="VehicleId" />
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Save
+                    </button>
+                    <a class="btn btn-secondary" asp-controller="Vehicle" asp-action="GetVehiclesDetails">
+                        <i class="bi bi-arrow-left-circle"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

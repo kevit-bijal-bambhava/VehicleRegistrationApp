@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleRegistration.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleRegistrationMVC", "VehicleRegistrationMVC\VehicleRegistrationMVC.csproj", "{0F095FDD-9FAB-49E0-A012-38D65CE934F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{72410DA0-D919-4C60-AC2C-4D15C219B50D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_WebAPI", "UnitTest_WebAPI\UnitTest_WebAPI.csproj", "{86CDD236-D95A-4DB4-89FB-41F5558FA470}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{0F095FDD-9FAB-49E0-A012-38D65CE934F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F095FDD-9FAB-49E0-A012-38D65CE934F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F095FDD-9FAB-49E0-A012-38D65CE934F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72410DA0-D919-4C60-AC2C-4D15C219B50D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72410DA0-D919-4C60-AC2C-4D15C219B50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72410DA0-D919-4C60-AC2C-4D15C219B50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72410DA0-D919-4C60-AC2C-4D15C219B50D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86CDD236-D95A-4DB4-89FB-41F5558FA470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86CDD236-D95A-4DB4-89FB-41F5558FA470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86CDD236-D95A-4DB4-89FB-41F5558FA470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86CDD236-D95A-4DB4-89FB-41F5558FA470}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

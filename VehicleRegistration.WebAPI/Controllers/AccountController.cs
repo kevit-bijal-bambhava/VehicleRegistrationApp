@@ -50,10 +50,10 @@ namespace VehicleRegistration.WebAPI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var isAuthenticated = await _userService.AuthenticateUser(login.UserName, login.Password);
-
-            if (!isAuthenticated)
-                return BadRequest("Invalid credentials");
+            var (isAuthenticated, errorMessage) = await _userService.AuthenticateUser(login.UserName, login.Password);
+            
+            if (!isAuthenticated || errorMessage != null)
+                return BadRequest(errorMessage);
 
             var user = await _userService.GetUserByNameAsync(login.UserName);
             var tokenResponse = _jwttokenService.CreateJwtToken(user);

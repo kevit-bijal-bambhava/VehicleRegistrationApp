@@ -9,8 +9,8 @@ namespace VehicleRegistration.Core.Services
 {
     public class UserService : IUserService
     {
-        private const int SaltSize = 16; 
-        private const int HashSize = 32; 
+        private const int SaltSize = 16;
+        private const int HashSize = 32;
 
         private readonly ApplicationDbContext _context;
 
@@ -49,11 +49,15 @@ namespace VehicleRegistration.Core.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }
-        public async Task<bool> AuthenticateUser(string userName, string plainPassword)
+        public async Task<(bool IsAuthenticated, string ErrorMessage)> AuthenticateUser(string userName, string plainPassword)
         {
             // from database 
             var user = await GetUserByNameAsync(userName);
-            var (storedPasswordHash, storedSalt) = await GetPasswordHashAndSalt(userName);
+            if (user == null)
+            {
+                return (false, "User Doesn't Exists with this Credential.");
+            }
+                var (storedPasswordHash, storedSalt) = await GetPasswordHashAndSalt(userName);
 
             // Convert the stored salt from Base64 string to byte array
             var saltBytes = Convert.FromBase64String(storedSalt);
@@ -62,7 +66,10 @@ namespace VehicleRegistration.Core.Services
             var computedHash = ComputeHash(plainPassword, saltBytes);
 
             // Compare the computed hash with the stored password hash
-            return computedHash == storedPasswordHash;
+            var isAuthenticated = computedHash == storedPasswordHash;
+
+            // Return the result
+            return (isAuthenticated, isAuthenticated ? null : "Invalid credential.");
         }
 
 

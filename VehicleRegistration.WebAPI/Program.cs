@@ -7,6 +7,7 @@ using System.Text;
 using VehicleRegistration.Core.ServiceContracts;
 using VehicleRegistration.Core.Services;
 using VehicleRegistration.Infrastructure;
+using VehicleRegistration.WebAPI.Middleware;
 
 namespace VehicleRegistration.WebAPI
 {
@@ -77,16 +78,19 @@ namespace VehicleRegistration.WebAPI
             // Service for Jwt Token 
             builder.Services.AddTransient<IJwtService, JwtService>();
 
+            
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
+            //app.UseExceptionHandlingMiddleware();
             app.UseHttpsRedirection();
 
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            app.UseAuthentication();
+            app.UseRouting();
+            app.UseAuthenticationMiddleware();
             app.UseAuthorization();
 
             app.MapControllers();

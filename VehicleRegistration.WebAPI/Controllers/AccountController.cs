@@ -51,19 +51,22 @@ namespace VehicleRegistration.WebAPI.Controllers
                 return BadRequest(ModelState);
 
             var (isAuthenticated, errorMessage) = await _userService.AuthenticateUser(login.UserName, login.Password);
-            
+
             if (!isAuthenticated || errorMessage != null)
                 return BadRequest(errorMessage);
 
             var user = await _userService.GetUserByNameAsync(login.UserName);
             var tokenResponse = _jwttokenService.CreateJwtToken(user);
 
+            if (tokenResponse == null)
+            {
+                return null;
+            }
             return Ok(new
             {
                 JwtToken = tokenResponse.Token,
                 Message = "Login Successful",
                 TokenExpiration = tokenResponse.Expiration
-
             });
 
         }

@@ -21,12 +21,16 @@ namespace VehicleRegistration.Core.Services
         {
             var tokenId = Guid.NewGuid().ToString();
 
+           if(user == null)
+            {
+                return null;
+            }
+
             List<Claim> claims = new()
             {
                 new Claim("TokenId", tokenId),
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
             };
-
             SecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
             SigningCredentials creds = new(key, SecurityAlgorithms.HmacSha256);

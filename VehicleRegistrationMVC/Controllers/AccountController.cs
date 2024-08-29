@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
 using VehicleRegistrationMVC.Models;
 using VehicleRegistrationMVC.Services;
@@ -47,9 +48,10 @@ namespace VehicleRegistrationMVC.Controllers
                 return View(model);
             }
             var result = await _accountService.LoginAsync(model, HttpContext);
-            if (!string.IsNullOrEmpty(result.Message))
+           
+           if(result != null)
             {
-                if(result.Message == "Login Successful")
+                if (result.Message == "Login Successful")
                 {
                     HttpContext.Session.SetString("Token", result.JwtToken);
                     return RedirectToAction("GetVehiclesDetails", "Vehicle");
@@ -59,8 +61,7 @@ namespace VehicleRegistrationMVC.Controllers
                     ModelState.AddModelError(string.Empty, result.Message);
                 }
             }
-                return View(model);
-           
+            return View(model);
         }
 
         public ActionResult Logout()

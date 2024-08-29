@@ -24,7 +24,7 @@ namespace VehicleRegistration.WebAPI.Middleware
             catch (Exception ex)
             {
                 httpContext.Response.StatusCode = 500;
-                await httpContext.Response.WriteAsync("Error occurred");
+                await httpContext.Response.WriteAsync(ex.Message);
             }
         }
     }

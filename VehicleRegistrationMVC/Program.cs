@@ -1,4 +1,5 @@
 using Serilog;
+using VehicleRegistrationMVC.Filters.ActionFilters;
 using VehicleRegistrationMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<ValidateJwtTokenFilter>();
+builder.Services.AddScoped<ModelStateValidationFilter>();
 builder.Services.AddCors(options => {
     options.AddDefaultPolicy(builder =>
     {

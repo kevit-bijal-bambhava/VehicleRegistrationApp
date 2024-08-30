@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
+using VehicleRegistrationMVC.Filters.ActionFilters;
 using VehicleRegistrationMVC.Models;
 using VehicleRegistrationMVC.Services;
 
 namespace VehicleRegistrationMVC.Controllers
 {
     [AllowAnonymous]
+    [ServiceFilter(typeof(ModelStateValidationFilter))]
     public class AccountController : Controller
     {
         private readonly AccountService _accountService;
@@ -28,10 +30,6 @@ namespace VehicleRegistrationMVC.Controllers
         public async Task<IActionResult> SignUp(SignUpViewModel signUpmodel)
         {
             _logger.LogInformation("MVC_AccountController_SignUpPost");
-            if (!ModelState.IsValid)
-            {
-                return View(signUpmodel);
-            }
             string response = await _accountService.SignUpAsync(signUpmodel);
             ModelState.AddModelError(string.Empty, response);
             return RedirectToAction("Login");
@@ -47,10 +45,6 @@ namespace VehicleRegistrationMVC.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             _logger.LogInformation("MVC_AccountController_LoginPost");
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
             var result = await _accountService.LoginAsync(model, HttpContext);
            
            if(result != null)

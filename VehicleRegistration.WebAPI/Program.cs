@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Reflection;
 using System.Text;
 using VehicleRegistration.Core.ServiceContracts;
@@ -16,6 +17,14 @@ namespace VehicleRegistration.WebAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //Configure Serilog
+            builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfiguration) => {
+
+                loggerConfiguration
+                .ReadFrom.Configuration(context.Configuration) //read configuration settings from built-in IConfiguration
+                .ReadFrom.Services(services); //read out current app's services and make them available to serilog
+            });
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -81,6 +90,8 @@ namespace VehicleRegistration.WebAPI
             
 
             var app = builder.Build();
+
+            app.UseSerilogRequestLogging();
 
             // Configure the HTTP request pipeline.
             //app.UseExceptionHandlingMiddleware();

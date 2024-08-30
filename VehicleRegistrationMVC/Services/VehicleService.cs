@@ -8,11 +8,13 @@ public class VehicleService
 {
     private readonly IConfiguration _configuration;
     private readonly HttpClient _httpClient;
+    private readonly ILogger<VehicleService> _logger;
 
-    public VehicleService(IConfiguration configuration, HttpClient httpClient)
+    public VehicleService(IConfiguration configuration, HttpClient httpClient, ILogger<VehicleService> logger)
     {
         _configuration = configuration;
         _httpClient = httpClient;
+        _logger = logger;
     }
 
     private void SetAuthorizationHeader(string jwtToken)
@@ -22,6 +24,7 @@ public class VehicleService
 
     public async Task<List<VehicleViewModel>> GetVehicles(string jwtToken)
     {
+        _logger.LogInformation("MVC_VehicleService_GetVehicles");
         SetAuthorizationHeader(jwtToken);
         var response = await _httpClient.GetAsync(new Uri(_configuration["ApiBaseUrl"] + "api/Vehicle/getAllVehicle"));
 
@@ -37,10 +40,11 @@ public class VehicleService
 
     public async Task<string> AddVehicle(VehicleViewModel vehicleModel, string jwtToken)
     {
+        _logger.LogInformation("MVC_VehicleService_AddVehicle");
         SetAuthorizationHeader(jwtToken);
         var jsonStr = JsonConvert.SerializeObject(vehicleModel);
         var content = new StringContent(jsonStr, Encoding.UTF8, "application/json");
-     
+
         var response = await _httpClient.PostAsync(new Uri(_configuration["ApiBaseUrl"] + "api/Vehicle/add"), content);
 
         if (!response.IsSuccessStatusCode)
@@ -54,6 +58,7 @@ public class VehicleService
 
     public async Task<string> UpdateVehicles(VehicleViewModel vehicleModel, Guid Id, string jwtToken)
     {
+        _logger.LogInformation("MVC_VehicleService_UpdateVehicle with VehicleId: " + Id);
         SetAuthorizationHeader(jwtToken);
         var jsonStr = JsonConvert.SerializeObject(vehicleModel);
         var content = new StringContent(jsonStr, Encoding.UTF8, "application/json");
@@ -70,6 +75,7 @@ public class VehicleService
 
     public async Task<VehicleViewModel> GetVehicleById(Guid id, string jwtToken)
     {
+        _logger.LogInformation("MVC_VehicleService_GetVehicleById with VehicleId: " + id);
         SetAuthorizationHeader(jwtToken);
         var response = await _httpClient.GetAsync(new Uri(_configuration["ApiBaseUrl"] + $"api/Vehicle/get/{id}"));
 
@@ -85,6 +91,7 @@ public class VehicleService
 
     public async Task<string> DeleteVehicle(Guid id, string jwtToken)
     {
+        _logger.LogInformation("MVC_VehicleService_DeleteVehicle with VehicleId: " + id);
         SetAuthorizationHeader(jwtToken);
         var response = await _httpClient.DeleteAsync(new Uri(_configuration["ApiBaseUrl"] + $"api/Vehicle/delete/{id}"));
 

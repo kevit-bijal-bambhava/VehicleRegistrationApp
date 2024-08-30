@@ -1,6 +1,15 @@
+using Serilog;
 using VehicleRegistrationMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Configure Serilog
+builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfiguration) => {
+
+    loggerConfiguration
+    .ReadFrom.Configuration(context.Configuration) //read configuration settings from built-in IConfiguration
+    .ReadFrom.Services(services); //read out current app's services and make them available to serilog
+});
 
 builder.Services.AddHttpClient();
 builder.Services.AddDistributedMemoryCache();
@@ -23,6 +32,7 @@ builder.Services.AddCors(options => {
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

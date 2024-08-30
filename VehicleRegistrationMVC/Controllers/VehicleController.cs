@@ -10,19 +10,22 @@ namespace VehicleRegistrationMVC.Controllers
     {
         private readonly VehicleService _vehicleService;
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public VehicleController(IHttpClientFactory httpClientFactory, VehicleService vehicleService)
+        private readonly ILogger<VehicleController> _logger;
+        public VehicleController(IHttpClientFactory httpClientFactory, VehicleService vehicleService, ILogger<VehicleController> logger)
         {
             _httpClientFactory = httpClientFactory;
             _vehicleService = vehicleService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetVehiclesDetails()
         {
+            _logger.LogInformation("MVC_VehicleController_GetVehicleDetails.");
             string jwtToken = HttpContext.Session.GetString("Token");
             if (string.IsNullOrEmpty(jwtToken))
             {
+                _logger.LogInformation("JWT Token is NULL");
                 return RedirectToAction("Login", "Account");
             }
 
@@ -34,9 +37,11 @@ namespace VehicleRegistrationMVC.Controllers
         [HttpGet]
         public IActionResult AddVehicleDetails()
         {
+            _logger.LogInformation("MVC_VehicleController_AddVehicleDetailsGet.");
             string jwtToken = HttpContext.Session.GetString("Token");
             if (string.IsNullOrEmpty(jwtToken))
             {
+                _logger.LogInformation("JWT Token is NULL");
                 return RedirectToAction("Login", "Home");
             }
 
@@ -46,6 +51,7 @@ namespace VehicleRegistrationMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddVehicleDetails(VehicleViewModel model)
         {
+            _logger.LogInformation("MVC_VehicleController_AddVehicleDetailsPost.");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -54,9 +60,10 @@ namespace VehicleRegistrationMVC.Controllers
             string jwtToken = HttpContext.Session.GetString("Token");
             if (string.IsNullOrEmpty(jwtToken))
             {
+                _logger.LogInformation("JWT Token is NULL");
                 return RedirectToAction("Login", "Home");
             }
-           
+
             var result = await _vehicleService.AddVehicle(model, jwtToken);
             TempData["SuccessMessage"] = "Vehicle details added successfully!";
 
@@ -66,15 +73,18 @@ namespace VehicleRegistrationMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> EditVehicleDetails(Guid id)
         {
+            _logger.LogInformation("MVC_VehicleController_EditVehicleDetailsGet with VehicleId: " + id);
             string jwtToken = HttpContext.Session.GetString("Token");
             if (string.IsNullOrEmpty(jwtToken))
             {
+                _logger.LogInformation("JWT Token is NULL");
                 return RedirectToAction("Login", "Home");
             }
 
             var vehicle = await _vehicleService.GetVehicleById(id, jwtToken);
             if (vehicle == null)
             {
+                _logger.LogInformation("Vehicle Not Found.");
                 return NotFound();
             }
 
@@ -82,8 +92,9 @@ namespace VehicleRegistrationMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditVehicleDetails(VehicleViewModel model, Guid Id)
+        public async Task<IActionResult> EditVehicleDetails(VehicleViewModel model, Guid id)
         {
+            _logger.LogInformation("MVC_VehicleController_EditVehicleDetailsPost with VehicleId: " + id);
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -92,10 +103,11 @@ namespace VehicleRegistrationMVC.Controllers
             string jwtToken = HttpContext.Session.GetString("Token");
             if (string.IsNullOrEmpty(jwtToken))
             {
+                _logger.LogInformation("JWT Token is NULL");
                 return RedirectToAction("Login", "Home");
             }
 
-            var result = await _vehicleService.UpdateVehicles(model,Id, jwtToken);
+            var result = await _vehicleService.UpdateVehicles(model, id, jwtToken);
             TempData["Edited"] = "Details Updated Successfully!!";
             return RedirectToAction("GetVehiclesDetails");
         }
@@ -103,9 +115,11 @@ namespace VehicleRegistrationMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteVehicle(Guid id)
         {
+            _logger.LogInformation("MVC_VehicleController_DeleteVehicle with VehicleId: " + id);
             string jwtToken = HttpContext.Session.GetString("Token");
             if (string.IsNullOrEmpty(jwtToken))
             {
+                _logger.LogInformation("JWT Token is NULL");
                 return RedirectToAction("Login", "Home");
             }
 
@@ -117,6 +131,7 @@ namespace VehicleRegistrationMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> GetVehicleById(Guid id)
         {
+            _logger.LogInformation("MVC_VehicleController_GetVehicleById with VehicleId: " + id);
             string jwtToken = HttpContext.Session.GetString("Token");
             if (string.IsNullOrEmpty(jwtToken))
             {

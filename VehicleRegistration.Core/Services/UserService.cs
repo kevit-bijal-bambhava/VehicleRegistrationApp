@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using VehicleRegistration.Core.ServiceContracts;
 using VehicleRegistration.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace VehicleRegistration.Core.Services
 {
@@ -13,21 +14,26 @@ namespace VehicleRegistration.Core.Services
         private const int HashSize = 32;
 
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(ApplicationDbContext context)
+        public UserService(ApplicationDbContext context, ILogger<UserService> logger)
         {
             _context = context;
+            _logger = logger;
         }
         public async Task<UserModel> GetUserByIdAsync(Guid userId)
         {
+            //_logger.LogInformation("WebAPI_GetUserById_UserService UserID: " + userId);
             return await _context.Users.FindAsync(userId);
         }
         public async Task<UserModel> GetUserByEmailAsync(string userEmail)
         {
+            //_logger.LogInformation("WebAPI_GetUserByEmail_UserService Email: " + userEmail);
             return await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == userEmail);
         }
         public async Task<UserModel> GetUserByNameAsync(string userName)
         {
+            //_logger.LogInformation("WebAPI_GetUserByname_UserService UserName: " + userName);
             return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
         }
         public async Task<(string PasswordHash, string Salt)> GetPasswordHashAndSalt(string userName)

@@ -11,21 +11,23 @@ namespace VehicleRegistrationMVC.Controllers
     public class AccountController : Controller
     {
         private readonly AccountService _accountService;
-        private readonly IHttpClientFactory _httpClientFactory;
-        public AccountController(AccountService accountService, IHttpClientFactory httpClientFactory)
+        private readonly ILogger<AccountController> _logger;
+        public AccountController(AccountService accountService, ILogger<AccountController> logger)
         {
             _accountService = accountService;
-            _httpClientFactory = httpClientFactory;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult SignUp()
         {
+            _logger.LogInformation("MVC_AccountController_SignUpGet");
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel signUpmodel)
         {
+            _logger.LogInformation("MVC_AccountController_SignUpPost");
             if (!ModelState.IsValid)
             {
                 return View(signUpmodel);
@@ -37,12 +39,14 @@ namespace VehicleRegistrationMVC.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            _logger.LogInformation("MVC_AccountController_LoginGet");
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            _logger.LogInformation("MVC_AccountController_LoginPost");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -66,6 +70,7 @@ namespace VehicleRegistrationMVC.Controllers
 
         public ActionResult Logout()
         {
+            _logger.LogInformation("MVC_AccountController_LogOut");
             HttpContext.Session.Clear();
             return RedirectToAction(nameof(Login));
         }

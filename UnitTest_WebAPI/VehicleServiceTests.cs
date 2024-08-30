@@ -11,7 +11,6 @@ namespace VehicleRegistration.Tests
     public class VehicleServiceTests
     {
         private readonly Mock<IVehicleService> _mockVehicleService;
-
         public VehicleServiceTests()
         {
             _mockVehicleService = new Mock<IVehicleService>();
@@ -62,7 +61,6 @@ namespace VehicleRegistration.Tests
         {
             // Arrange
             var newVehicle = new VehicleModel { VehicleId = Guid.NewGuid() };
-
             _mockVehicleService.Setup(service => service.AddVehicle(newVehicle))
                                .ReturnsAsync(newVehicle);
 
@@ -79,7 +77,6 @@ namespace VehicleRegistration.Tests
         {
             // Arrange
             var vehicle = new VehicleModel { VehicleId = Guid.NewGuid() };
-
             _mockVehicleService.Setup(service => service.EditVehicle(vehicle))
                                .ReturnsAsync(vehicle);
 
@@ -114,7 +111,6 @@ namespace VehicleRegistration.Tests
         {
             // Arrange
             var vehicleId = Guid.NewGuid();
-
             _mockVehicleService.Setup(service => service.DeleteVehicle(vehicleId))
                                .ReturnsAsync((VehicleModel)null);
 

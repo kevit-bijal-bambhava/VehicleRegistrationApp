@@ -28,23 +28,13 @@ namespace VehicleRegistration.WebAPI.Middleware
             {
                 // If the user is not authenticated, returning 401 Unauthorized
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                await context.Response.WriteAsync("Unauthorized");
+                await context.Response.WriteAsync("Unauthorized User.");
                 return;
             }
-
-            if (user.Identity?.IsAuthenticated == true)
+            else
             {
                 context.Response.StatusCode = StatusCodes.Status200OK;
                 await _next(context);
-                return;
-            }
-
-            var hasRequiredClaim = user.Claims.Any(c => c.Type == ClaimTypes.NameIdentifier && c.Value == "ExpectedUserId");
-
-            if (!hasRequiredClaim)
-            {
-                context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                await context.Response.WriteAsync("Forbidden");
                 return;
             }
         }

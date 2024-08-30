@@ -18,8 +18,7 @@ namespace VehicleRegistrationMVC.Filters.ActionFilters
             }
         }
         public void OnActionExecuted(ActionExecutedContext context)
-        {
-            
+        {   
         }
     }
 }

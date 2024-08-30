@@ -25,7 +25,6 @@ namespace VehicleRegistrationMVC.Filters.ActionFilters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            // This method can be used for post-action logic
         }
     }
 }

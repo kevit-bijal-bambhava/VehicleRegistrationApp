@@ -1,4 +1,4 @@
-## Context: Create a web application for Vehicle Registration using .net core & Web API  which contains the following features.
+## Context: Web application for Vehicle Registration using .net core & Web API  which contains the following features.
 
 * Sign Up For New User For Vehicle Registration Application.
 * Login Feature For User.

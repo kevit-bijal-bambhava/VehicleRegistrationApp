@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace VehicleRegistration.WebAPI.Models
 {
@@ -19,6 +20,5 @@ namespace VehicleRegistration.WebAPI.Models
         public string VehicleClass { get; set; }
         [Required(ErrorMessage = "Provide the type of fuel the vehicle consumes")]
         public string FuelType { get; set; }
-
     }
 }

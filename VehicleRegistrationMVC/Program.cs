@@ -1,4 +1,4 @@
-using Serilog;
+ using Serilog;
 using VehicleRegistrationMVC.Filters.ActionFilters;
 using VehicleRegistrationMVC.Services;
 

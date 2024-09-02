@@ -94,5 +94,12 @@ namespace VehicleRegistrationMVC.Controllers
             }
             return View(vehicle);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetVehicleExcel()
+        {
+            string jwtToken = HttpContext.Session.GetString("Token");
+            MemoryStream memoryStream = await _vehicleService.GetVehicleExcel(jwtToken);
+            return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Vehicles.xlsx");
+        }
     }
 }

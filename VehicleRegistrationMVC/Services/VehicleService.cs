@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 using System.Net.Http.Headers;
 using System.Text;
 using VehicleRegistrationMVC.Models;
@@ -102,5 +103,50 @@ public class VehicleService
         }
 
         return await response.Content.ReadAsStringAsync();
+    }
+    public async Task<MemoryStream> GetVehicleExcel(string jwtToken)
+    {
+        MemoryStream memoryStream = new MemoryStream();
+        using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
+        {
+            ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets.Add("VehiclesSheet");
+            workSheet.Cells["A1"].Value = "VehicleNumber";
+            workSheet.Cells["B1"].Value = "Description";
+            workSheet.Cells["C1"].Value = "OwnerName";
+            workSheet.Cells["D1"].Value = "OwnerAddress";
+            workSheet.Cells["E1"].Value = "Contact No.";
+            workSheet.Cells["F1"].Value = "Email";
+            workSheet.Cells["G1"].Value = "VehicleClass";
+            workSheet.Cells["H1"].Value = "FuelType";
+
+            using (ExcelRange headerCells = workSheet.Cells["A1:H1"])
+            {
+                headerCells.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                headerCells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightBlue);
+                headerCells.Style.Font.Bold = true;
+            }
+
+            int row = 2;
+            List<VehicleViewModel> vehicles = await GetVehicles(jwtToken);
+            foreach (var vehicle in vehicles)
+            {
+                workSheet.Cells[row, 1].Value = vehicle.VehicleNumber;
+                workSheet.Cells[row, 2].Value = vehicle.Description;
+                workSheet.Cells[row, 3].Value = vehicle.VehicleOwnerName;
+                workSheet.Cells[row, 4].Value = vehicle.OwnerAddress;
+                workSheet.Cells[row, 5].Value = vehicle.OwnerContactNumber;
+                workSheet.Cells[row, 6].Value = vehicle.Email;
+                workSheet.Cells[row, 7].Value = vehicle.VehicleClass;
+                workSheet.Cells[row, 8].Value = vehicle.FuelType;
+
+                row++;
+            }
+
+            workSheet.Cells[$"A1:H{row}"].AutoFitColumns();
+            await excelPackage.SaveAsync();
+        }
+
+        memoryStream.Position = 0;
+        return memoryStream;
     }
 }

@@ -33,10 +33,6 @@ namespace VehicleRegistration.WebAPI.Controllers
 
             // Get UserId from authenticated user's claims
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (string.IsNullOrEmpty(userIdClaim))
-            //{
-            //    return Unauthorized("User ID not found in claims.");
-            //}
 
             var newVehicle = new VehicleModel
             {
@@ -118,11 +114,6 @@ namespace VehicleRegistration.WebAPI.Controllers
         {
             _logger.LogInformation("WebAPI_VehicleController_GetAllVehicle");
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (string.IsNullOrEmpty(userIdClaim))
-            //{
-            //    return Unauthorized("User ID not found in claims.");
-            //}
-
             var vehicles = await _vehicleService.GetAllVehicles(userIdClaim);
             _logger.LogInformation("All Vehicle details fetched.");
             return Ok(vehicles); 

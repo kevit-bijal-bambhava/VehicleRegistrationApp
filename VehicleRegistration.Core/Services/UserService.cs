@@ -13,32 +13,29 @@ namespace VehicleRegistration.Core.Services
         private const int SaltSize = 16;
         private const int HashSize = 32;
 
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _db;
         private readonly ILogger<UserService> _logger;
 
-        public UserService(ApplicationDbContext context, ILogger<UserService> logger)
+        public UserService(ApplicationDbContext db, ILogger<UserService> logger)
         {
-            _context = context;
+            _db = db;
             _logger = logger;
         }
         public async Task<UserModel> GetUserByIdAsync(Guid userId)
-        {
-            //_logger.LogInformation("WebAPI_GetUserById_UserService UserID: " + userId);
-            return await _context.Users.FindAsync(userId);
+        { 
+            return await _db.Users.FindAsync(userId);
         }
         public async Task<UserModel> GetUserByEmailAsync(string userEmail)
         {
-            //_logger.LogInformation("WebAPI_GetUserByEmail_UserService Email: " + userEmail);
-            return await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == userEmail);
+            return await _db.Users.FirstOrDefaultAsync(u => u.UserEmail == userEmail);
         }
         public async Task<UserModel> GetUserByNameAsync(string userName)
         {
-            //_logger.LogInformation("WebAPI_GetUserByname_UserService UserName: " + userName);
-            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            return await _db.Users.FirstOrDefaultAsync(u => u.UserName == userName);
         }
         public async Task<(string PasswordHash, string Salt)> GetPasswordHashAndSalt(string userName)
         {
-            var result = await _context.Users.Where(u => u.UserName == userName).Select(u => new { u.PasswordHash, u.Salt }).FirstOrDefaultAsync();
+            var result = await _db.Users.Where(u => u.UserName == userName).Select(u => new { u.PasswordHash, u.Salt }).FirstOrDefaultAsync();
             return (result.PasswordHash, result.Salt);
         }
 
@@ -52,8 +49,8 @@ namespace VehicleRegistration.Core.Services
             user.Salt = salt;
 
             // Add the user to the database
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            _db.Users.Add(user);
+            await _db.SaveChangesAsync();
         }
         public async Task<(bool IsAuthenticated, string ErrorMessage)> AuthenticateUser(string userName, string plainPassword)
         {

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VehicleRegistrationMVC.Services;
-using VehicleRegistrationMVC.Models;
 using System.Threading.Tasks;
 using VehicleRegistrationMVC.Filters.ActionFilters;
+using System.Security.Claims;
+using VehicleRegistrationMVC.Models;
 
 namespace VehicleRegistrationMVC.Controllers
 {
@@ -94,12 +95,13 @@ namespace VehicleRegistrationMVC.Controllers
             }
             return View(vehicle);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetVehicleExcel()
         {
             string jwtToken = HttpContext.Session.GetString("Token");
-            MemoryStream memoryStream = await _vehicleService.GetVehicleExcel(jwtToken);
-            return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Vehicles.xlsx");
+            MemoryStream memoryStream = await _vehicleService.VehicleExcelDowload(jwtToken);
+            return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Vehicles_Detail.xlsx");
         }
     }
 }

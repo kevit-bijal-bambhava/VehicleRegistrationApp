@@ -14,7 +14,7 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, 
 
 builder.Services.AddHttpClient();
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddScoped<AccountService>();
+builder.Services.AddTransient<AccountService>();
 builder.Services.AddScoped<VehicleService>();
 builder.Services.AddSession(options =>
 {
@@ -42,7 +42,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

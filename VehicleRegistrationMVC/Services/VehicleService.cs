@@ -104,7 +104,7 @@ public class VehicleService
 
         return await response.Content.ReadAsStringAsync();
     }
-    public async Task<MemoryStream> GetVehicleExcel(string jwtToken)
+    public async Task<MemoryStream> VehicleExcelDowload(string jwtToken)
     {
         MemoryStream memoryStream = new MemoryStream();
         using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
@@ -118,12 +118,13 @@ public class VehicleService
             workSheet.Cells["F1"].Value = "Email";
             workSheet.Cells["G1"].Value = "VehicleClass";
             workSheet.Cells["H1"].Value = "FuelType";
-
+            workSheet.Cells["A1:H1"].AutoFitColumns();
             using (ExcelRange headerCells = workSheet.Cells["A1:H1"])
             {
                 headerCells.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 headerCells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightBlue);
-                headerCells.Style.Font.Bold = true;
+                headerCells.Style.Font.Size = 12;
+                headerCells.Style.Font.Bold = true;  
             }
 
             int row = 2;

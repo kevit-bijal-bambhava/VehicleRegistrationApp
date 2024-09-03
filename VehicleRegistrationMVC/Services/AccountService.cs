@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Text;
 using VehicleRegistrationMVC.Models;
 
-
 namespace VehicleRegistrationMVC.Services
 {
     public class AccountService

@@ -65,7 +65,7 @@ namespace VehicleRegistration.WebAPI.Controllers
                 _logger.LogInformation("Vehicle doesn't Exists with Id: " + id);
                 return NotFound();
             }
-            
+
             existingVehicle.VehicleNumber = vehicle.VehicleNumber;
             existingVehicle.Description = vehicle.Description;
             existingVehicle.VehicleOwnerName = vehicle.VehicleOwnerName;
@@ -116,7 +116,7 @@ namespace VehicleRegistration.WebAPI.Controllers
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var vehicles = await _vehicleService.GetAllVehicles(userIdClaim);
             _logger.LogInformation("All Vehicle details fetched.");
-            return Ok(vehicles); 
+            return Ok(vehicles);
         }
 
     }

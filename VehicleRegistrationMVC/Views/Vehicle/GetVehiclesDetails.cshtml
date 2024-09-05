@@ -8,6 +8,17 @@
     <div class="text-center">
         <h3 class="mb-4 bg-info text-white p-2 d-inline-block rounded">All Your Vehicles Details</h3>
     </div>
+    <div>
+        @ViewBag.Message
+    </div>
+    <div>
+        @if (TempData["FilePath"] != null)
+        {
+            <div style="float: right; margin-right: 10px;">
+                <img src="@TempData["FilePath"]" alt="Profile Photo" style="max-width: 200px; max-height: 200px;" />
+            </div>
+        }
+    </div>
 
     <!-- Success/Error messages -->
     @if (TempData["SuccessMessage"] != null)

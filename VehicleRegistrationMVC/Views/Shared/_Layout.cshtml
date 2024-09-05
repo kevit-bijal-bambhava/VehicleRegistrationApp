@@ -26,6 +26,9 @@
                         @if (Convert.ToBoolean(Context.Session.GetInt32("Token")))
                         {
                             <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="UploadProfileImage">Upload-Profile-Photo</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Vehicle" asp-action="GetVehiclesDetails">Vehicle</a>
                             </li>
                             <li class="nav-item">

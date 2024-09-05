@@ -12,8 +12,8 @@ using VehicleRegistration.Infrastructure;
 namespace VehicleRegistration.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240815134410_Initial")]
-    partial class Initial
+    [Migration("20240903141156_ProfileImageNullable")]
+    partial class ProfileImageNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace VehicleRegistration.Infrastructure.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Salt")

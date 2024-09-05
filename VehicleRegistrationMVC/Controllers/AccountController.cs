@@ -62,6 +62,32 @@ namespace VehicleRegistrationMVC.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UploadProfileImage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadProfileImage(IFormFile file)
+        {
+            if (file == null)
+            {
+                ViewBag.Message = "No file selected for upload.";
+            }
+            try
+            {
+                string filePath = await _accountService.AddProfilePhoto(file, HttpContext);
+                TempData["FilePath"] = filePath;   //TempData for render in GetVehiclesDetails 
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = $"File upload failed: {ex.Message}";
+            }
+
+            // Redirect back to the view to show the message
+            return RedirectToAction("GetVehiclesDetails", "Vehicle");
+        }
         public ActionResult Logout()
         {
             _logger.LogInformation("MVC_AccountController_LogOut");

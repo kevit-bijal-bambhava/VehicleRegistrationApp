@@ -21,7 +21,7 @@ namespace VehicleRegistration.Core.Services
             _db = db;
             _logger = logger;
         }
-        public async Task<UserModel> GetUserByIdAsync(Guid userId)
+        public async Task<UserModel> GetUserByIdAsync(int userId)
         { 
             return await _db.Users.FindAsync(userId);
         }
@@ -38,7 +38,6 @@ namespace VehicleRegistration.Core.Services
             var result = await _db.Users.Where(u => u.UserName == userName).Select(u => new { u.PasswordHash, u.Salt }).FirstOrDefaultAsync();
             return (result.PasswordHash, result.Salt);
         }
-
         public async Task AddUser(UserModel user, string plainPassword)
         {
             // Generate password hash and salt
@@ -50,6 +49,11 @@ namespace VehicleRegistration.Core.Services
 
             // Add the user to the database
             _db.Users.Add(user);
+            await _db.SaveChangesAsync();
+        }
+        public async Task UpdateUser(UserModel user)
+        {
+            _db.Users.Update(user);
             await _db.SaveChangesAsync();
         }
         public async Task<(bool IsAuthenticated, string ErrorMessage)> AuthenticateUser(string userName, string plainPassword)
@@ -74,8 +78,6 @@ namespace VehicleRegistration.Core.Services
             // Return the result
             return (isAuthenticated, isAuthenticated ? null : "Invalid credential.");
         }
-
-
         // for creating password hash and salt 
         public (string PasswordHash, string Salt) CreatePasswordHash(string password)
         {

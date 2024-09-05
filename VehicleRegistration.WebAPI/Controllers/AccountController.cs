@@ -5,12 +5,12 @@ using VehicleRegistration.Infrastructure.DataBaseModels;
 using VehicleRegistration.Core.ServiceContracts;
 using VehicleRegistration.WebAPI.Models;
 using VehicleRegistration.Core.Services;
+using System.Security.Claims;
 
 namespace VehicleRegistration.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -24,6 +24,7 @@ namespace VehicleRegistration.WebAPI.Controllers
         }
 
         [HttpPost("signup")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignUp(User user)
         {
             _logger.LogInformation("WebAPI_AccountController_SignUp");
@@ -83,6 +84,55 @@ namespace VehicleRegistration.WebAPI.Controllers
             });
 
         }
+
+        [HttpPost("updateProfile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile(IFormFile profileImg)
+        {
+            if (profileImg == null || profileImg.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+            try
+            {
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var user = await _userService.GetUserByIdAsync(userId);
+
+                // Define the directory to save the uploaded file
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ProfileImages");
+
+                // Ensure the directory exists
+                if (!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
+
+                // Create the full file path
+                var fileName = Path.GetFileName(profileImg.FileName);
+                var filePath = Path.Combine(uploadPath, fileName);
+
+                // Save the file to the specified path
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await profileImg.CopyToAsync(stream);
+                }
+
+                // Update the user's profile with the filePath
+                user.ProfileImage = filePath; 
+                await _userService.UpdateUser(user);
+
+                return Ok(new
+                {
+                    filePath = filePath,
+                });
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (log error, etc.)
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }
 

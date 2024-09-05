@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Net.Http;
+﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 using VehicleRegistrationMVC.Models;
 
@@ -17,6 +16,11 @@ namespace VehicleRegistrationMVC.Services
             _client = client;
             _configuration = configuration;
             _logger = logger;
+        }
+
+        private void SetAuthorizationHeader(string jwtToken)
+        {
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
         }
 
         public async Task<string> SignUpAsync(SignUpViewModel model)
@@ -51,5 +55,37 @@ namespace VehicleRegistrationMVC.Services
             httpContext.Session.SetString("Token", loginResponse.JwtToken);
             return loginResponse;    
         }
+        
+        public async Task<string> AddProfilePhoto(IFormFile file, HttpContext httpContext)
+        {
+
+            if (file == null || file.Length == 0)
+                throw new ArgumentException("File cannot be null or empty", nameof(file));
+
+            using (var content = new MultipartFormDataContent())
+            {
+                using (var fileStream = file.OpenReadStream())
+                {
+                    var fileContent = new StreamContent(fileStream);
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+
+                    // Add file content to the multipart content
+                    content.Add(fileContent, "profileImg", file.FileName);
+                    string jwtToken = httpContext.Session.GetString("Token");
+                    SetAuthorizationHeader(jwtToken);
+                    // Send the POST request
+                    var apiUrl = _configuration["ApiBaseUrl"] + "api/account/updateProfile";
+                    HttpResponseMessage response = await _client.PostAsync(apiUrl, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var filePath = await response.Content.ReadAsStringAsync();
+                        return filePath;
+                    }
+                    return response.ToString();
+                }
+            }
+        }
+
     }
 }

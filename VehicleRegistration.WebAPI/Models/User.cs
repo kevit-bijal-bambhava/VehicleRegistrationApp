@@ -4,7 +4,7 @@ namespace VehicleRegistration.WebAPI.Models
 {
     public class User
     {
-        public Guid UserId = new Guid();
+        public int UserId;
         [Required(ErrorMessage = "Name can't be blank")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Please provide email address")]

@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "UploadProfileImage";
+}
+
+<h3>Upload Profile Picture</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data" asp-action="UploadProfileImage" asp-controller="Account">
+            <input type="file" name="file" id="fileInput" />
+            <button type="submit">Upload</button>
+            <div>
+                @ViewBag.Message
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Vehicle" asp-action="GetVehiclesDetails">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

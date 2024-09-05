@@ -23,4 +23,8 @@
     <PackageReference Include="SerilogTimings" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VehicleRegistration.Infrastructure\VehicleRegistration.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

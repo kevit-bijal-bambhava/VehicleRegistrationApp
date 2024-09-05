@@ -11,7 +11,8 @@ namespace VehicleRegistration.Infrastructure.DataBaseModels
         public string UserName { get; set; }
         public string UserEmail { get; set; }
         public string PasswordHash { get; set; }
-        public string Salt {  get; set; }   
+        public string Salt {  get; set; }
+        public string? ProfileImage { get; set; }
         public ICollection<VehicleModel> Vehicles { get; set; }
     }
 }

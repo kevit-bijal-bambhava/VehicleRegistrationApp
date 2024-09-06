@@ -99,7 +99,7 @@ namespace VehicleRegistration.WebAPI.Controllers
                 var user = await _userService.GetUserByIdAsync(userId);
 
                 // Define the directory to save the uploaded file
-                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ProfileImages");
+                var uploadPath = Path.Combine("wwwroot", "ProfileImages");
 
                 // Ensure the directory exists
                 if (!Directory.Exists(uploadPath))

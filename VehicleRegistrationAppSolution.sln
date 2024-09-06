@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleRegistration.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleRegistrationMVC", "VehicleRegistrationMVC\VehicleRegistrationMVC.csproj", "{0F095FDD-9FAB-49E0-A012-38D65CE934F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_WebAPI", "UnitTest_WebAPI\UnitTest_WebAPI.csproj", "{86CDD236-D95A-4DB4-89FB-41F5558FA470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest_WebAPI", "UnitTest_WebAPI\UnitTest_WebAPI.csproj", "{86CDD236-D95A-4DB4-89FB-41F5558FA470}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleRegistration.Worker", "VehicleRegistration.Worker\VehicleRegistration.Worker.csproj", "{EBBAA3ED-BC76-42E3-A01B-2B55D1863373}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{86CDD236-D95A-4DB4-89FB-41F5558FA470}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86CDD236-D95A-4DB4-89FB-41F5558FA470}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86CDD236-D95A-4DB4-89FB-41F5558FA470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBBAA3ED-BC76-42E3-A01B-2B55D1863373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBBAA3ED-BC76-42E3-A01B-2B55D1863373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBBAA3ED-BC76-42E3-A01B-2B55D1863373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBBAA3ED-BC76-42E3-A01B-2B55D1863373}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

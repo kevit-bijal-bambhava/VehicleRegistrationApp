@@ -58,7 +58,6 @@ namespace VehicleRegistrationMVC.Services
         
         public async Task<string> AddProfilePhoto(IFormFile file, HttpContext httpContext)
         {
-
             if (file == null || file.Length == 0)
                 throw new ArgumentException("File cannot be null or empty", nameof(file));
 
@@ -77,15 +76,16 @@ namespace VehicleRegistrationMVC.Services
                     var apiUrl = _configuration["ApiBaseUrl"] + "api/account/updateProfile";
                     HttpResponseMessage response = await _client.PostAsync(apiUrl, content);
 
+                    var contentString = await response.Content.ReadAsStringAsync();
+                    var imagePath = JsonConvert.DeserializeObject<ProfilePhoto>(contentString);
                     if (response.IsSuccessStatusCode)
                     {
-                        var filePath = await response.Content.ReadAsStringAsync();
+                        var filePath = imagePath.FilePath;
                         return filePath;
                     }
                     return response.ToString();
                 }
             }
         }
-
     }
 }

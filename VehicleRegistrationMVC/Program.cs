@@ -1,8 +1,33 @@
- using Serilog;
+using Quartz;
+using Serilog;
+using System.Configuration;
 using VehicleRegistrationMVC.Filters.ActionFilters;
 using VehicleRegistrationMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+# region Add Quartz services to the DI container
+builder.Services.AddQuartz(q =>
+{
+    // Create a job
+    q.UseMicrosoftDependencyInjectionJobFactory();
+
+    var jobKey = new JobKey("LogMessageJob");
+    q.AddJob<LogMessageJob>(opts => opts.WithIdentity(jobKey));
+
+    string? expr = builder.Configuration["Quartz:LogMessageJob"];
+
+    // Create a trigger to run every 5 seconds
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("LogMessageJob-trigger")
+        .WithCronSchedule(expr)
+    );
+});
+#endregion
+
+// Add Quartz hosted service
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 //Configure Serilog
 builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfiguration) => {

@@ -19,7 +19,7 @@ namespace VehicleRegistration.Core.Services
 
         public AuthenticationResponse CreateJwtToken(UserModel user)
         {
-            var tokenId = Guid.NewGuid().ToString();
+           var tokenId = Guid.NewGuid().ToString();
 
            if(user == null)
             {

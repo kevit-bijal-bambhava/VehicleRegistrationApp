@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VehicleRegistration.Infrastructure\VehicleRegistration.Infrastructure.csproj" />
+    <ProjectReference Include="..\VehicleRegistration.Worker\VehicleRegistration.Worker.csproj" />
   </ItemGroup>
 
 </Project>

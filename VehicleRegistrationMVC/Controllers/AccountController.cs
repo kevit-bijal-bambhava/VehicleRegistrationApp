@@ -34,6 +34,7 @@ namespace VehicleRegistrationMVC.Controllers
             ModelState.AddModelError(string.Empty, response);
             return RedirectToAction("Login");
         }
+        
         [HttpGet]
         public IActionResult Login()
         {
@@ -79,6 +80,7 @@ namespace VehicleRegistrationMVC.Controllers
             {
                 string filePath = await _accountService.AddProfilePhoto(file, HttpContext);
                 TempData["FilePath"] = filePath;   //TempData for render in GetVehiclesDetails 
+                TempData.Keep();
             }
             catch (Exception ex)
             {

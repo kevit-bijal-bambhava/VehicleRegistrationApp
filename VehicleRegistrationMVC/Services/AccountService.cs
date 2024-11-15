@@ -26,7 +26,7 @@ namespace VehicleRegistrationMVC.Services
         public async Task<string> SignUpAsync(SignUpViewModel model)
         {
             _logger.LogInformation("MVC_AccountService_SignUp");
-            var jsonStr = JsonConvert.SerializeObject(model);
+            string jsonStr = JsonConvert.SerializeObject(model);
             var content = new StringContent(jsonStr, Encoding.UTF8, "application/json");
             HttpResponseMessage httpResponseMessage = await _client.PostAsync(_configuration["ApiBaseUrl"] + "api/account/signup", content);
             string response = await httpResponseMessage.Content.ReadAsStringAsync();

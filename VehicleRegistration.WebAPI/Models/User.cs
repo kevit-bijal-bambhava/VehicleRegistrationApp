@@ -12,5 +12,6 @@ namespace VehicleRegistration.WebAPI.Models
         public string Email { get; set; }
         [Required(ErrorMessage = "Please set the Password Its mandatory")]
         public string Password { get; set; }
+        public string RoleName { get; set; }
     }
 }

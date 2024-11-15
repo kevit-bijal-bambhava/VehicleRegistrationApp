@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
+using VehicleRegistration.Infrastructure.DataBaseModels.RBAC_Model;
 
 namespace VehicleRegistration.Infrastructure.DataBaseModels
 {

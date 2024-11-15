@@ -16,8 +16,8 @@ namespace VehicleRegistration.Infrastructure.DataBaseModels
         public string VehicleClass { get; set; }
         public string FuelType { get; set; }
 
+        public int UserId { get; set; }
         [ForeignKey("UserId")]
         public UserModel User { get; set; }
-        public int UserId { get; set; }
     }
 }

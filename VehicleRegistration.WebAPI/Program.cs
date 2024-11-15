@@ -68,13 +68,14 @@ namespace VehicleRegistration.WebAPI
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
                         IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8
                                        .GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
                     };
                 });
 
+            builder.Services.AddAuthorization();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -86,8 +87,6 @@ namespace VehicleRegistration.WebAPI
 
             // Service for Jwt Token 
             builder.Services.AddTransient<IJwtService, JwtService>();
-
-            
 
             var app = builder.Build();
             app.UseSerilogRequestLogging();
@@ -101,7 +100,7 @@ namespace VehicleRegistration.WebAPI
 
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseAuthenticationMiddleware();
+            app.UseMiddleware<AuthenticationMiddleware>();
             app.UseAuthorization();
 
             app.MapControllers();

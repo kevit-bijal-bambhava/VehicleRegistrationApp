@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VehicleRegistration.Infrastructure.DataBaseModels;
+using VehicleRegistration.Infrastructure.DataBaseModels.RBAC_Model;
 
 namespace VehicleRegistration.Infrastructure
 {
@@ -7,6 +8,12 @@ namespace VehicleRegistration.Infrastructure
     {
         public DbSet<UserModel> Users { get; set; }
         public DbSet<VehicleModel> VehiclesDetails { get; set; }
+
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
